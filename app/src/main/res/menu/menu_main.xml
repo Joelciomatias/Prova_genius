@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.joelc.prova_genius.MainActivity">
+
+    <item
+        android:id="@+id/home"
+        android:orderInCategory="100"
+        android:title="Inicio"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/ranking"
+        android:orderInCategory="100"
+        android:title="Ranking"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/aluno"
+        android:orderInCategory="100"
+        android:title="Aluno"
+        app:showAsAction="always"/>
+</menu>
