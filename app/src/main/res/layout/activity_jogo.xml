@@ -20,6 +20,8 @@
             android:id="@+id/bt1"
             android:background="#008000"
             android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
             android:layout_height="150dp"
             android:layout_weight="1"
             android:text="1" />
@@ -28,6 +30,9 @@
             android:id="@+id/bt2"
             android:background="#FF0000"
             android:layout_width="0dp"
+
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
             android:layout_height="150dp"
             android:layout_weight="1"
             android:text="2" />
@@ -35,16 +40,21 @@
 
     <LinearLayout
         android:id="@+id/buttonWraper"
+        android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/buttonWrapper"
+
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/bt3"
             android:background="#0000FF"
             android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+
+            android:layout_marginRight="5dp"
             android:layout_height="150dp"
             android:layout_weight="1"
             android:text="3" />
@@ -53,6 +63,8 @@
             android:id="@+id/bt4"
             android:background="#FFCC00"
             android:layout_width="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
             android:layout_height="150dp"
             android:layout_weight="1"
             android:text="4" />
