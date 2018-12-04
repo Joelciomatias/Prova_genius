@@ -24,7 +24,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 public class Jogo extends MenuActivity {
 
     public TextView tvFaseAtual,tvPontos,tvVidas;
-    public Button bt1,bt2,bt3,bt4;
+    public Button bt1,bt2,bt3,bt4,btStart;
     public SoundPool spaudio;
     public Animation animation;
     public static int index=0;
@@ -44,7 +44,6 @@ public class Jogo extends MenuActivity {
     public int fase5[] = {4,3,2,1,1,2,3,4};
 
     public int fase1Passos = 0;
-
 
     public boolean fase1On = false;
     public boolean fase2On = false;
@@ -70,11 +69,11 @@ public class Jogo extends MenuActivity {
         victory = spaudio.load(Jogo.this,R.raw.victory,1);
         error = spaudio.load(Jogo.this,R.raw.error,1);
 
-
         bt1 = findViewById(R.id.bt1);
         bt2 = findViewById(R.id.bt2);
         bt3 = findViewById(R.id.bt3);
         bt4 = findViewById(R.id.bt4);
+        btStart = findViewById(R.id.btStart);
         tvFaseAtual = findViewById(R.id.tvFaseAtual);
         tvPontos = findViewById(R.id.tvPontos);
         tvVidas = findViewById(R.id.tvVida);
@@ -115,19 +114,24 @@ public class Jogo extends MenuActivity {
             }
         });
 
+        btStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startGenius();
+            }
+        });
         startButtonHandler();
 
     }
 
 
-    public void startGenius(View v){
+    public void startGenius(){
         fase1Passos = 0;
         etapaJogo = 1 ;
         vidas = 3;
         pontos = 200;
         playFase1();
         atualizarTela();
-
     }
 
     public void atualizarTela(){
@@ -140,13 +144,13 @@ public class Jogo extends MenuActivity {
 
         if(fase1On){
             if(fase1Passos < 8 && fase1[fase1Passos] == botao ){
-                Toast.makeText(getApplicationContext(),"faseiPassosIndex: "+fase1Passos+"  fase1conteudo: "+fase1[fase1Passos]+"\n" + " botaoApertado: "+botao,Toast.LENGTH_SHORT).show();
                 fase1Passos++;
                 if(fase1Passos > 7){
                     spaudio.play(win,1,1,1,0,1);
                     etapaJogo = 2;
                     pontos+=100;
-                    caixaDialogo("Parabéns, indo para a fase: "+etapaJogo);
+                    jogando = false;
+                    caixaDialogo("Parabéns, indo para a fase 2",2);
                 }
             } else {
                 spaudio.play(error,1,1,1,0,1);
@@ -155,23 +159,21 @@ public class Jogo extends MenuActivity {
                 vidas--;
                 etapaJogo = 1;
                 atualizarTela();
-                playFase1();
-                if (vidas<0){
-                    vidas = 3;
-                    playFase1();
-                }
+                jogando =false;
+                loseDialog(vidas,1);
+
             }
             atualizarTela();
         }
         if(fase2On){
             if(fase1Passos < 8 && fase2[fase1Passos] == botao ){
-                Toast.makeText(getApplicationContext(),"faseiPassosIndex: "+fase1Passos+"  fase1conteudo: "+fase1[fase1Passos]+"\n" + " botaoApertado: "+botao,Toast.LENGTH_SHORT).show();
                 fase1Passos++;
                 if(fase1Passos > 7){
                     spaudio.play(win,1,1,1,0,1);
                     etapaJogo = 3;
                     pontos+=100;
-                    caixaDialogo("Parabéns, indo para a fase: "+etapaJogo);
+                    jogando = false;
+                    caixaDialogo("Parabéns, indo para a fase 3 ",3);
                 }
             } else {
                 spaudio.play(error,1,1,1,0,1);
@@ -179,22 +181,19 @@ public class Jogo extends MenuActivity {
                 pontos-=30;
                 vidas--;
                 atualizarTela();
-                playFase2();
-                if (vidas<0){
-                    vidas = 3 ;
-                    playFase1();
-                }
+                jogando = false;
+                loseDialog(vidas,2);
             }
         }
         if(fase3On){
             if(fase1Passos < 8 && fase3[fase1Passos] == botao ){
-                Toast.makeText(getApplicationContext(),"faseiPassosIndex: "+fase1Passos+"  fase1conteudo: "+fase1[fase1Passos]+"\n" + " botaoApertado: "+botao,Toast.LENGTH_SHORT).show();
                 fase1Passos++;
                 if(fase1Passos > 7){
                     spaudio.play(win,1,1,1,0,1);
                     etapaJogo = 4;
                     pontos+=100;
-                    caixaDialogo("Parabéns, indo para a fase: "+etapaJogo);
+                    jogando =false;
+                    caixaDialogo("Parabéns, indo para a fase 4",4);
                 }
             } else {
                 spaudio.play(error,1,1,1,0,1);
@@ -202,22 +201,20 @@ public class Jogo extends MenuActivity {
                 pontos-=30;
                 vidas--;
                 atualizarTela();
-                playFase3();
-                if (vidas<0){
-                    vidas = 3 ;
-                    playFase1();
-                }
+                jogando =false;
+                loseDialog(vidas,3);
             }
         }
         if(fase4On){
             if(fase1Passos < 8 && fase4[fase1Passos] == botao ){
-                Toast.makeText(getApplicationContext(),"faseiPassosIndex: "+fase1Passos+"  fase1conteudo: "+fase1[fase1Passos]+"\n" + " botaoApertado: "+botao,Toast.LENGTH_SHORT).show();
+
                 fase1Passos++;
                 if(fase1Passos > 7){
                     spaudio.play(win,1,1,1,0,1);
-                    etapaJogo = 5;
+                    //etapaJogo = 5;
                     pontos+=100;
-                    caixaDialogo("Parabéns, indo para a fase: "+etapaJogo);
+                    jogando = false;
+                    caixaDialogo("Parabéns, indo para a fase 5",5);
                 }
             } else {
                 spaudio.play(error,1,1,1,0,1);
@@ -225,22 +222,19 @@ public class Jogo extends MenuActivity {
                 pontos-=30;
                 vidas--;
                 atualizarTela();
-                playFase4();
-                if (vidas<0){
-                    vidas = 3 ;
-                    playFase1();
-                }
+                jogando =false;
+                loseDialog(vidas,4);
             }
         }
         if(fase5On){
-            if(fase1Passos < 8 && fase1[fase1Passos] == botao ){
-                Toast.makeText(getApplicationContext(),"faseiPassosIndex: "+fase1Passos+"  fase1conteudo: "+fase1[fase1Passos]+"\n" + " botaoApertado: "+botao,Toast.LENGTH_SHORT).show();
+            if(fase1Passos < 8 && fase5[fase1Passos] == botao ){
                 fase1Passos++;
                 if(fase1Passos > 7){
                     spaudio.play(victory,1,1,1,0,1);
                     pontos+=100;
                     etapaJogo = 1;
-                    caixaDialogo("Parabéns, Voce venceu o jogo: ");
+                    jogando =false;
+                    caixaDialogo("Parabéns, Voce venceu o jogo: ",1);
                 }
             } else {
                 spaudio.play(error,1,1,1,0,1);
@@ -248,18 +242,14 @@ public class Jogo extends MenuActivity {
                 pontos-=30;
                 vidas--;
                 atualizarTela();
-                playFase5();
-                if (vidas<0){
-                    vidas = 3 ;
-                    playFase1();
-                }
+                jogando =false;
+                loseDialog(vidas,5);
             }
         }
 
-
     }
 
-    public void caixaDialogo(String text){
+    public void caixaDialogo(String text, final int etapa){
         AlertDialog alertDialog = new AlertDialog.Builder(Jogo.this).create();
         alertDialog.setTitle("Alert");
         alertDialog.setMessage(text);
@@ -268,13 +258,61 @@ public class Jogo extends MenuActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         atualizarTela();
-                        switch (etapaJogo){
-                            case 1:playFase1();
-                            case 2:playFase2();
-                            case 3:playFase3();
-                            case 4:playFase4();
-                            case 5:playFase5();
-                                //chamar a  tela para preenche o nome
+                        Log.i("ETAPA ATUAL:-=-=-=", "ETAPA "+ etapa +" EXECUTANDO");
+                       if(etapa == 2){
+                           playFase2();
+                       } else if(etapa == 3){
+                           playFase3();
+                       } else if (etapa == 1) {
+                            playFase1();
+                       } else if(etapa == 4){
+                            playFase4();
+                        } else if (etapa == 5) {
+                            playFase5();
+                        }
+                    }
+                });
+        alertDialog.show();
+    }
+    public void loseDialog(final int _vidas, final int _etapa){
+        AlertDialog alertDialog = new AlertDialog.Builder(Jogo.this).create();
+        alertDialog.setTitle("Errou!!!!");
+        if(_vidas>0){
+            alertDialog.setMessage("Pode tentar de novo");
+
+        } else {
+            alertDialog.setMessage("Game over");
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        atualizarTela();
+                        if(_vidas>0) {
+                            if (_etapa == 2) {
+                                playFase2();
+                            } else if (_etapa == 3) {
+                                playFase3();
+                            } else if (_etapa == 1) {
+                                playFase1();
+                            } else if (_etapa == 4) {
+                                playFase4();
+                            } else if (_etapa == 5) {
+                                playFase5();
+                            }
+                        } else {
+                            fase1On = false;
+                            fase2On = false;
+                            fase3On = false;
+                            fase4On = false;
+                            fase5On = false;
+                            vidas = 0;
+                            etapaJogo = 0;
+                            pontos = 0;
+
+
+                            atualizarTela();
                         }
                     }
                 });
@@ -282,11 +320,11 @@ public class Jogo extends MenuActivity {
     }
 
 
+
     public void playFase1(){
+        jogando = true;
         fase1Passos = 0;
         etapaJogo = 1 ;
-        vidas = 3;
-        pontos = 200;
         fase1On = true;
         index = 0;
         fase2On =false;
@@ -294,42 +332,51 @@ public class Jogo extends MenuActivity {
         fase4On =false;
         fase5On =false;
         atualizarTela();
+        Log.i("PLAY FASE:-=-=-=", "PLAY FASE 1");
     }
     public void playFase2(){
+        jogando = true;
         fase1Passos = 0;
+        fase1On =false;
         fase2On = true;
         index = 0;
-        fase1On =false;
         fase3On =false;
         fase4On =false;
         fase5On =false;
+        Log.i("PLAY FASE:-=-=-=", "PLAY FASE 2");
     }
     public void playFase3(){
+        jogando = true;
+        fase2On =false;
         fase1Passos = 0;
         fase3On = true;
         index = 0;
         fase1On =false;
-        fase2On =false;
         fase4On =false;
         fase5On =false;
+        Log.i("PLAY FASE:-=-=-=", "PLAY FASE 3");
     }
     public void playFase4(){
+        jogando = true;
+        fase3On =false;
         fase1Passos = 0;
         fase4On = true;
         index = 0;
         fase2On =false;
-        fase3On =false;
         fase1On =false;
         fase5On =false;
+        Log.i("PLAY FASE:-=-=-=", "PLAY FASE 4");
     }
     public void playFase5(){
+        jogando = true;
+        fase4On =false;
         fase1Passos = 0;
         fase5On = true;
         index = 0;
         fase2On =false;
         fase3On =false;
-        fase4On =false;
         fase1On =false;
+        Log.i("PLAY FASE:-=-=-=", "PLAY FASE 5");
     }
 
     public void startButtonHandler(){
@@ -337,67 +384,75 @@ public class Jogo extends MenuActivity {
         index = 0;
         new Timer().scheduleAtFixedRate(new TimerTask(){
             @Override
-            public void run(){
+            public void run() {
 
-                int localIndex=0;
+                int localIndex = 0;
 
-                if(index < 8 && fase1On){
-                    localIndex = fase1[index];
+                if (jogando) {
+
+                    if (index < 8 && fase1On) {
+                        localIndex = fase1[index];
+                        Log.i("FASE ATUAL:-=-=-=", "fASE 1 EXECUTANDO");
+                    }
+                    if (index < 8 && fase2On) {
+                        localIndex = fase2[index];
+                        Log.i("FASE ATUAL:-=-=-=", "fASE 2 EXECUTANDO");
+                    }
+
+                    if (index < 8 && fase3On) {
+                        localIndex = fase3[index];
+                        Log.i("FASE ATUAL:-=-=-=", "fASE 3 EXECUTANDO");
+                    }
+
+                    if (index < 8 && fase4On) {
+                        localIndex = fase4[index];
+                        Log.i("FASE ATUAL:-=-=-=", "fASE 4 EXECUTANDO");
+                    }
+                    if (index < 8 && fase5On) {
+                        localIndex = fase5[index];
+                        Log.i("FASE ATUAL:-=-=-=", "fASE 5 EXECUTANDO");
+                    }
+
+
+                    if (localIndex == 1)
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                piscarBtn(bt1);
+                                spaudio.play(beep1, 1, 1, 1, 0, 1);
+                            }
+                        });
+                    else if (localIndex == 2)
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                piscarBtn(bt2);
+                                spaudio.play(beep2, 1, 1, 1, 0, 1);
+                            }
+                        });
+                    else if (localIndex == 3)
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                piscarBtn(bt3);
+                                spaudio.play(beep3, 1, 1, 1, 0, 1);
+                            }
+                        });
+                    else if (localIndex == 4) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                piscarBtn(bt4);
+                                spaudio.play(beep4, 1, 1, 1, 0, 1);
+                            }
+                        });
+
+                    } else {
+                        Log.i("tag", "A execute every 0.600 seconds+" + index);
+                    }
+
+                    index++;
                 }
-                if(index < 8 && fase2On){
-                    localIndex = fase2[index];
-                }
-
-                if(index < 8 && fase3On){
-                    localIndex = fase3[index];
-                }
-
-                if(index < 8 && fase4On){
-                    localIndex = fase4[index];
-                }
-                if(index < 8 && fase5On){
-                    localIndex = fase5[index];
-                }
-
-
-                if(localIndex == 1 )
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            piscarBtn(bt1);
-                            spaudio.play(beep1,1,1,1,0,1);
-                        }
-                    });
-               else if(localIndex == 2 )
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            piscarBtn(bt2);
-                            spaudio.play(beep2,1,1,1,0,1);
-                        }
-                    });
-                else if(localIndex == 3 )
-                     runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            piscarBtn(bt3);
-                            spaudio.play(beep3,1,1,1,0,1);
-                        }
-                    });
-                else if(localIndex ==4){
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            piscarBtn(bt4);
-                            spaudio.play(beep4,1,1,1,0,1);
-                        }
-                    });
-
-                } else {
-                    Log.i("tag", "A Kiss every 5 seconds+"+index);
-                }
-
-                index++;
             }
         },5,600);
 
@@ -414,6 +469,11 @@ public class Jogo extends MenuActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        if(!jogando){
+            return super.onOptionsItemSelected(item);
+        } else {
+            return false;
+        }
+
     }
 }

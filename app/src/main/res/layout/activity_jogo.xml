@@ -89,13 +89,13 @@
         android:text="0" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/textView6"
         android:layout_marginEnd="54dp"
-        android:onClick="startGenius"
+
         android:text="Iniciar jogo" />
 
     <TextView
@@ -111,15 +111,15 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button"
         android:layout_alignStart="@+id/textView6"
+        android:layout_below="@+id/btStart"
         android:text="Pontuacão: " />
 
     <TextView
         android:id="@+id/tvPontos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button"
+        android:layout_below="@+id/btStart"
         android:layout_toEndOf="@+id/textView9"
         android:text="0" />
 
