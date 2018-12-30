@@ -2,10 +2,9 @@ package com.example.joelc.prova_genius;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,11 +14,9 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Jogo extends MenuActivity {
 
@@ -30,7 +27,7 @@ public class Jogo extends MenuActivity {
     public static int index=0;
     public int vidas;
     public int etapaJogo = 1;
-    public int pontos = 0;
+    public static int pontos = 0;
 
     public int jogoAtual[] = {0,0,0,0,0,0,0,0};
     public boolean jogando = false;
@@ -61,13 +58,13 @@ public class Jogo extends MenuActivity {
         //soundpoll
         spaudio = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
         //carregando os audios
-        beep1 = spaudio.load(Jogo.this,R.raw.beep1,1);
-        beep2 = spaudio.load(Jogo.this,R.raw.beep5,1);
-        beep3 = spaudio.load(Jogo.this,R.raw.beep3,1);
-        beep4 = spaudio.load(Jogo.this,R.raw.beep2,1);
-        win = spaudio.load(Jogo.this,R.raw.win,1);
-        victory = spaudio.load(Jogo.this,R.raw.victory,1);
-        error = spaudio.load(Jogo.this,R.raw.error,1);
+        beep1 = spaudio.load(Jogo.this, R.raw.beep1,1);
+        beep2 = spaudio.load(Jogo.this, R.raw.beep5,1);
+        beep3 = spaudio.load(Jogo.this, R.raw.beep3,1);
+        beep4 = spaudio.load(Jogo.this, R.raw.beep2,1);
+        win = spaudio.load(Jogo.this, R.raw.win,1);
+        victory = spaudio.load(Jogo.this, R.raw.victory,1);
+        error = spaudio.load(Jogo.this, R.raw.error,1);
 
         bt1 = findViewById(R.id.bt1);
         bt2 = findViewById(R.id.bt2);
@@ -150,7 +147,9 @@ public class Jogo extends MenuActivity {
                     etapaJogo = 2;
                     pontos+=100;
                     jogando = false;
+
                     caixaDialogo("Parabéns, indo para a fase 2",2);
+
                 }
             } else {
                 spaudio.play(error,1,1,1,0,1);
@@ -211,7 +210,7 @@ public class Jogo extends MenuActivity {
                 fase1Passos++;
                 if(fase1Passos > 7){
                     spaudio.play(win,1,1,1,0,1);
-                    //etapaJogo = 5;
+                    etapaJogo = 5;
                     pontos+=100;
                     jogando = false;
                     caixaDialogo("Parabéns, indo para a fase 5",5);
@@ -235,6 +234,9 @@ public class Jogo extends MenuActivity {
                     etapaJogo = 1;
                     jogando =false;
                     caixaDialogo("Parabéns, Voce venceu o jogo: ",1);
+
+                    Intent i = new Intent(this, Confirmacao.class);
+                    startActivity(i);
                 }
             } else {
                 spaudio.play(error,1,1,1,0,1);
@@ -278,10 +280,10 @@ public class Jogo extends MenuActivity {
         AlertDialog alertDialog = new AlertDialog.Builder(Jogo.this).create();
         alertDialog.setTitle("Errou!!!!");
         if(_vidas>0){
-            alertDialog.setMessage("Pode tentar de novo");
+            alertDialog.setMessage("Pode tentar de novo, vai que você consegue !");
 
         } else {
-            alertDialog.setMessage("Game over");
+            alertDialog.setMessage("Game over, treine mais ! :(");
         }
 
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

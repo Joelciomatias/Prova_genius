@@ -1,6 +1,5 @@
 package com.example.joelc.prova_genius;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
